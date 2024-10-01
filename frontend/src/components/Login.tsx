@@ -8,11 +8,17 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
+    console.log('hanaananana');
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/auth/login', { username, password });
-      if (response.data.token) {
+      console.log('token about to be generated:');
+      console.log(response.data);
+      
+      if (response.data.access_token) {
+        console.log('token generated:', response.data.token);
         localStorage.setItem('token', response.data.token);
+        console.log('Logged in, navigating to home');
         navigate('/home');
       } else if (response.data.error) {
         alert('Invalid credentials');

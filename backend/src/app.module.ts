@@ -3,13 +3,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { SeedService } from './seed/seed.service';
+import { CourseModule } from './Courses/course.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/course-management'),
-    AuthModule, 
+    AuthModule,
+    CourseModule, 
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeedService],
 })
 export class AppModule {}

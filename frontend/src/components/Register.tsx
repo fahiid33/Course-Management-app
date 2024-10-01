@@ -16,7 +16,7 @@ const Register: React.FC<RegisterProps> = ({ setIsauth }) => {
     try {
       await axios.post('http://localhost:3000/auth/register', { username, password });
       setIsauth(true);
-      navigate('/login');
+      navigate('/home')
     } catch (error) {
       console.error("Registration failed", error);
     }
