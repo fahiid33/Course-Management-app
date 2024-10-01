@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/home';
+import './index.css';
 
 const App: React.FC = () => {
   const [isAuth, setIsAuth] = React.useState(false);
