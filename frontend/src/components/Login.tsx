@@ -8,19 +8,26 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
+const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', { username, password });
-      if (response.data.token) {
-        // Save the token (e.g., in localStorage)
-        localStorage.setItem('token', response.data.token);
-        navigate('/'); // Redirect after login
-      }
+        const response = await axios.post('http://localhost:3000/auth/login', { username, password });
+        console.log('Login successful');
+        if (response.data.token) {
+        console.log('Login successful');
+            localStorage.setItem('token', response.data.token);
+        } else if (response.data.error) {
+            alert('Invalid credentials');
+            return;
+        }
+        console.log('Login successful');
+        navigate('/home');
     } catch (error) {
-      console.error("Login failed", error);
+        console.error('Login error:', error);
+        alert('An error occurred during login. Please try again.');
     }
-  };
+};
 
   const handleSignUpRedirect = () => {
     navigate('/register');

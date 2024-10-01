@@ -10,7 +10,7 @@ export class User extends Document {
   password: string;
 
   @Prop({ default: [] })
-  courses: string[]; // Store user-enrolled courses if needed
+  courses: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,19 +1,24 @@
-// Register.tsx
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Register: React.FC = (props:any) => {
+
+interface RegisterProps {
+    setIsauth: (isauth: boolean) => void;
+}
+
+const Register: React.FC <RegisterProps>= ({setIsauth}) => {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:3000/auth/register', { username, password });
-      props.setIsauth(true);
-      Navigate('/login');
+      setIsauth(true);
+      navigate('/login');
     } catch (error) {
       console.error("Registration failed", error);
     }
