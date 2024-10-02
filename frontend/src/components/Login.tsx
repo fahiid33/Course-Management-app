@@ -22,7 +22,7 @@ const Login: React.FC<RegisterProps> = ({ setIsAuth }) => {
       
       if (response.data.access_token) {
         console.log('token generated:', response.data.token);
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('access_token', response.data.token);
         setIsAuth(true);
         console.log('Logged in, navigating to home');
         navigate('/home');

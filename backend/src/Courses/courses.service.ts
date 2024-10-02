@@ -12,4 +12,14 @@ export class CoursesService {
     const courses = await this.courseModel.find().skip(skip).limit(limit).exec(); // Fetch courses with pagination
     return { courses, totalCount }; // Return both courses and total count
   }
+  async searchCourses(title: string, instructor: string): Promise<Courses[]> {
+    const query = {};
+    if (title) {
+      query['title'] = { $regex: title, $options: 'i' };
+    }
+    if (instructor) {
+      query['instructor'] = { $regex: instructor, $options: 'i' };
+    }
+    return this.courseModel.find(query).exec();
+  }
 }

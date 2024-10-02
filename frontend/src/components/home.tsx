@@ -7,7 +7,9 @@ const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const navigate = useNavigate();
-  const limit = 10; // Set the number of items per page
+  const limit = 10;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [instructor, setInstructor] = useState('');
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -35,6 +37,17 @@ const Home: React.FC = () => {
       setCurrentPage((prev) => prev - 1);
     }
   };
+  
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(`http://localhost:3000/courses/search?title=${searchTerm}&instructor=${instructor}`);
+      setCourses(response.data);
+      setCurrentPage(1);
+    } catch (error) {
+      console.error('Error searching courses:', error);
+    }
+  };
 
   const handleCourseClick = (course: any) => {
     navigate(`/details`, {
@@ -48,17 +61,36 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 min-h-screen flex flex-col">
       <h2 className="text-2xl font-bold mb-4">Available Courses</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {courses.map((course) => (
-          <div key={course._id} className="border rounded p-4 shadow hover:shadow-lg transition cursor-pointer"
-          onClick={() => handleCourseClick(course)}
-          >
-            <h3 className="text-xl font-semibold">{course.title}</h3>
-            <p>{course.description}</p>
-          </div>
-        ))}
+
+      {/* Search Bar */}
+      <form onSubmit={handleSearch} className="mb-4">
+        <input
+          type="text"
+          placeholder="Search by title or instructor"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border rounded p-2 w-full md:w-1/3 mr-2"
+        />
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+          Search
+        </button>
+      </form>
+
+      <div className="flex-grow">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {courses.map((course) => (
+            <div
+              key={course._id}
+              className="border rounded p-4 shadow hover:shadow-lg transition cursor-pointer"
+              onClick={() => handleCourseClick(course)}
+            >
+              <h3 className="text-xl font-semibold">{course.title}</h3>
+              <p>{course.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="flex justify-between items-center mt-4">

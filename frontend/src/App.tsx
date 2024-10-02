@@ -9,7 +9,6 @@ import './index.css';
 const App: React.FC = () => {
   const [isAuth, setIsAuth] = React.useState<boolean>(false);
 
-  // Check if the access token exists in localStorage to determine if the user is authenticated
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     console.log('tokennn generated in app :', token);

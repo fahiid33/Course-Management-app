@@ -19,7 +19,7 @@ const Register: React.FC<RegisterProps> = ({ setIsAuth }) => {
       console.log('token about to be generateddd:', response.data);
       if (response.data.access_token) {
         console.log('token generateddd:', response.data.access_token);
-        localStorage.setItem('token', response.data.access_token);
+        localStorage.setItem('access_token', response.data.access_token);
         setIsAuth(true);
         navigate('/home')
       }
