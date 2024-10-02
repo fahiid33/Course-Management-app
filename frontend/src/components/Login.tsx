@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Login: React.FC = () => {
+interface RegisterProps {
+  setIsAuth: (isauth: boolean) => void;
+}
+
+
+const Login: React.FC<RegisterProps> = ({ setIsAuth }) => {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -18,6 +23,7 @@ const Login: React.FC = () => {
       if (response.data.access_token) {
         console.log('token generated:', response.data.token);
         localStorage.setItem('token', response.data.token);
+        setIsAuth(true);
         console.log('Logged in, navigating to home');
         navigate('/home');
       } else if (response.data.error) {

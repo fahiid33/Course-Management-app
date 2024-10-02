@@ -3,20 +3,26 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 interface RegisterProps {
-  setIsauth: (isauth: boolean) => void;
+  setIsAuth: (isauth: boolean) => void;
 }
 
-const Register: React.FC<RegisterProps> = ({ setIsauth }) => {
+const Register: React.FC<RegisterProps> = ({ setIsAuth }) => {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
+    console.log('hanaananana');
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/auth/register', { username, password });
-      setIsauth(true);
-      navigate('/home')
+      const response = await axios.post('http://localhost:3000/auth/register', { username, password });
+      console.log('token about to be generateddd:', response.data);
+      if (response.data.access_token) {
+        console.log('token generateddd:', response.data.access_token);
+        localStorage.setItem('token', response.data.access_token);
+        setIsAuth(true);
+        navigate('/home')
+      }
     } catch (error) {
       console.error("Registration failed", error);
     }
