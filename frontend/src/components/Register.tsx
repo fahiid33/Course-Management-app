@@ -15,7 +15,7 @@ const Register: React.FC<RegisterProps> = ({ setIsAuth }) => {
     console.log('hanaananana');
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', { username, password });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, { username, password });
       console.log('token about to be generateddd:', response.data);
       if (response.data.access_token) {
         console.log('token generateddd:', response.data.access_token);

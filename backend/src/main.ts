@@ -1,16 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SeedService } from './seed/seed.service';
+import * as dotenv from 'dotenv';
 
 async function bootstrap() {
+  dotenv.config();
   const app = await NestFactory.create(AppModule);
+  console.log('FRONmonnoTEND_URL:', process.env.MONGO_DB_URI);
   app.enableCors({
-    origin: 'http://localhost:3001',
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   });
   const seedService = app.get(SeedService);
   await seedService.seedCourses();
 
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();

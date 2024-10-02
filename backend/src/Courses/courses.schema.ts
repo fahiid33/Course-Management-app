@@ -9,7 +9,7 @@ export class Courses extends Document {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, index: true }) // indexing to handle data retrieval quickly
   instructor: string;
 
   @Prop({ required: true })

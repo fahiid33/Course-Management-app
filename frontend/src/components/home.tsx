@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchCourses, fetchSearchResults } from '../utils/seachUtils';
 import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
+
+  console.log('url is', process.env.REACT_APP_API_URL);
+
   const [courses, setCourses] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const navigate = useNavigate();
   const limit = 10;
   const [searchTerm, setSearchTerm] = useState('');
-  const [instructor, setInstructor] = useState('');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/courses?page=${currentPage}&limit=${limit}`);
-        setCourses(response.data.courses);
-        const totalCount = response.data.totalCount;
-        setTotalPages(Math.ceil(totalCount / limit)); // Calculate total pages
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
-
-    fetchCourses();
-  }, [currentPage]);
+    if (isSearching) {
+      fetchSearchResults(searchTerm, currentPage, limit)
+        .then(({ searchResults, totalPages }: { searchResults: any[], totalPages: number }) => {
+          setSearchResults(searchResults);
+          setTotalPages(totalPages);
+        })
+        .catch((error: unknown) => console.error(error));
+    } else {
+      fetchCourses(currentPage, limit)
+        .then(({ courses, totalPages }: {courses: any[], totalPages: number })=> {
+          setCourses(courses);
+          setTotalPages(totalPages);
+        })
+        .catch((error : unknown) => console.error(error));
+    }
+  }, [currentPage, isSearching, searchTerm]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -37,15 +44,24 @@ const Home: React.FC = () => {
       setCurrentPage((prev) => prev - 1);
     }
   };
-  
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await axios.get(`http://localhost:3000/courses/search?title=${searchTerm}&instructor=${instructor}`);
-      setCourses(response.data);
-      setCurrentPage(1);
-    } catch (error) {
-      console.error('Error searching courses:', error);
+    setCurrentPage(1); // Reset to page 1 on new search
+    setIsSearching(true);
+  };
+
+  const resetSearch = () => {
+    setSearchResults([]);
+    setIsSearching(false);
+    setSearchTerm('');
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    if (value === '') {
+      resetSearch();
     }
   };
 
@@ -59,37 +75,52 @@ const Home: React.FC = () => {
       },
     });
   };
-
   return (
     <div className="container mx-auto p-4 min-h-screen flex flex-col">
       <h2 className="text-2xl font-bold mb-4">Available Courses</h2>
 
-      {/* Search Bar */}
       <form onSubmit={handleSearch} className="mb-4">
         <input
           type="text"
           placeholder="Search by title or instructor"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleInputChange}
           className="border rounded p-2 w-full md:w-1/3 mr-2"
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button 
+        type="submit" 
+        className="bg-blue-500 text-white px-4 py-2 rounded"
+        disabled={!searchTerm}
+        >
           Search
         </button>
       </form>
 
       <div className="flex-grow">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {courses.map((course) => (
-            <div
-              key={course._id}
-              className="border rounded p-4 shadow hover:shadow-lg transition cursor-pointer"
-              onClick={() => handleCourseClick(course)}
-            >
-              <h3 className="text-xl font-semibold">{course.title}</h3>
-              <p>{course.description}</p>
-            </div>
-          ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {isSearching ? (
+            searchResults.map((course) => (
+                <div
+                  key={course._id}
+                  className="border rounded p-4 shadow hover:shadow-lg transition cursor-pointer"
+                  onClick={() => handleCourseClick(course)}
+                >
+                  <h3 className="text-xl font-semibold">{course.title}</h3>
+                  <p>{course.description}</p>
+                </div>
+            ))
+        ) : (
+            courses.map((course) => (
+                <div
+                  key={course._id}
+                  className="border rounded p-4 shadow hover:shadow-lg transition cursor-pointer"
+                  onClick={() => handleCourseClick(course)}
+                >
+                  <h3 className="text-xl font-semibold">{course.title}</h3>
+                  <p>{course.description}</p>
+                </div>
+              ))
+            )}
         </div>
       </div>
 

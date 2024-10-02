@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as data from '../Courses/courses_data.json';  
+import * as data from './courses_data.json';  
 import { Courses } from '../Courses/courses.schema';
 
 @Injectable()
