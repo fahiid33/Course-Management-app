@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Courses extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true }) // indexing to handle data retrieval quickly
   title: string;
 
   @Prop({ required: true })
