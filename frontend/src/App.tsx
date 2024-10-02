@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/home';
+import CourseDetails from './components/course_details';
 import './index.css';
 
 const App: React.FC = () => {
@@ -34,8 +35,9 @@ const App: React.FC = () => {
         <Route path="/login" element={<AuthRedirect><Login setIsAuth={setIsAuth} /></AuthRedirect>} />
         <Route path="/register" element={<AuthRedirect><Register setIsAuth={setIsAuth} /></AuthRedirect>} />
 
-        {/* Private route for home, only accessible if authenticated */}
+        {/* Private route for home, details only accessible if authenticated */}
         <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
+        <Route path="/details" element={<PrivateRoute><CourseDetails /></PrivateRoute>} />
 
         {/* Redirect unauthenticated users accessing root to login */}
         <Route path="/" element={<Navigate to={isAuth ? "/home" : "/login"} />} />

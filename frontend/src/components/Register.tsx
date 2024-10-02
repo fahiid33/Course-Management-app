@@ -23,6 +23,9 @@ const Register: React.FC<RegisterProps> = ({ setIsAuth }) => {
         setIsAuth(true);
         navigate('/home')
       }
+      if (response.data.error) {
+        alert('username already exists');
+      }
     } catch (error) {
       console.error("Registration failed", error);
     }
