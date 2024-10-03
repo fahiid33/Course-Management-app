@@ -20,11 +20,16 @@ export class CoursesController {
   async searchCourses(@Query('searchTerm') searchTerm: string, @Query('page') page: number = 1, @Query('limit') limit: number = 10) {
     return this.coursesService.searchCourses(searchTerm, page, limit);
   }
-  // @UseGuards(JwtAuthGuard)
+  
+  @UseGuards(JwtAuthGuard)
   @Post('create')
-  async createCourse(@Body() createCourseDto: CreateCourseDto, @Req() req: Request) {
-    console.log('create course controller called with createCourseDto:', createCourseDto, 'userId:');
-    const userId = (req as any).user._id; // Assuming user info is stored in the JWT
+  async createCourse(
+    @Body() createCourseDto: CreateCourseDto,
+    @Req() req: Request,
+  ) {
+    console.log('create course controller called with createCourseDto:', createCourseDto);
+    const userId = (req as any).user._id; // Retrieve userId from req.user
+    console.log('User ID:', userId); // Check if this prints
     return this.coursesService.createCourse(createCourseDto, userId);
   }
 

@@ -79,7 +79,6 @@ const Home: React.FC = () => {
     <div className="container mx-auto p-4 min-h-screen flex flex-col">
   <h2 className="text-2xl font-bold mb-4">Available Courses</h2>
 
-  {/* Button Wrapper */}
   <div className="flex justify-between items-center mb-4">
     <form onSubmit={handleSearch} className="flex">
       <input
@@ -97,7 +96,6 @@ const Home: React.FC = () => {
         Search
       </button>
     </form>
-    {/* Create Button */}
     <button 
       onClick={() => navigate('/create')} // Replace with your route to the create course page
       className="bg-green-500 text-white px-4 py-2 rounded"

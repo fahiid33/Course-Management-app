@@ -9,6 +9,7 @@ export class JwtAuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers['authorization'];
     console.log('authHeader:', authHeader);
+    console.log('JWT SECRETTT:', process.env.JWT_SECRET);
 
     if (!authHeader) {
       return false; // No token provided
@@ -17,8 +18,8 @@ export class JwtAuthGuard implements CanActivate {
     const token = authHeader.split(' ')[1]; // Extract the token from 'Bearer TOKEN'
     try {
       const payload = this.jwtService.verify(token);
-      request.user = payload; // Store user data in request
-      console.log('payloooooad:', payload);
+      request.user = payload;
+      console.log('payloooooaaaad:', payload);
       return true; // Token is valid
     } catch (err) {
       console.error('Error during token verification:', err);

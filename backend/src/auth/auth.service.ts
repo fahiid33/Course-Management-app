@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { User } from '../users/user.schema';
 import * as bcrypt from 'bcryptjs';
 import { UserDto } from './dto/user.dto';
+import { console } from 'inspector';
 
 @Injectable()
 export class AuthService {
@@ -39,9 +40,12 @@ export class AuthService {
   }
 
   async login(user: any) {
+    console.log('login method called with user : ', user, 'assign secret key', process.env.JWT_SECRET);
     const payload = { username: user.username, sub: user._id };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
     };
   }
 }
