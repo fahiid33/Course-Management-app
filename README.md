@@ -76,10 +76,10 @@ This will start the backend on http://localhost:3001 and the frontend on http://
 The application efficiently manages large datasets (over 10,000 courses) using:
 
 - Pagination: Data is divided into pages, allowing users to navigate through courses without slow loading times.
-How :
-    in the backend :
-    . by using skip() and limit() methods in mongodb to fetch courses based on the page.
-    in the frontend:
+- How :
+    1. in the backend :
+    . by using skip() and limit() methods in mongodb to fetch courses based on the page with a limit (10 courses).
+    2. in the frontend:
     . by tracking the state of currentPage to always render the limit (10 courses) by page.
 - MongoDB Indexing: Indexes are applied to key fields to ensure quick retrieval of data, enhancing the search and filter functionality.
 
