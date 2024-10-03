@@ -21,6 +21,7 @@ Welcome to the Course Management App! This project is a full-stack web applicati
 - **Frontend:** React
 - **Backend:** NestJS
 - **Database:** MongoDB
+- **Deployment:** Docker
 
 ## Getting Started
 
@@ -60,7 +61,7 @@ Before running the application, create the following .env files:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/course-management-app.git
+    git clone https://github.com/fahiid33/course-management-app.git
     cd course-management-app
     ```
 
@@ -74,10 +75,17 @@ This will start the backend on http://localhost:3001 and the frontend on http://
 
 The application efficiently manages large datasets (over 10,000 courses) using:
 
-    - Pagination: Data is divided into pages, allowing users to navigate through courses without slow loading times.
-    - MongoDB Indexing: Indexes are applied to key fields to ensure quick retrieval of data, enhancing the search and filter functionality.
+- Pagination: Data is divided into pages, allowing users to navigate through courses without slow loading times.
+How :
+    in the backend :
+    . by using skip() and limit() methods in mongodb to fetch courses based on the page.
+    in the frontend:
+    . by tracking the state of currentPage to always render the limit (10 courses) by page.
+- MongoDB Indexing: Indexes are applied to key fields to ensure quick retrieval of data, enhancing the search and filter functionality.
 
 ### How to Use the App
 
 New users will be prompted to the login page. If they haven't registered yet, they can click the button on the login page to navigate to the registration page. After successful registration, users are redirected to the home page, where they can view, create, and search for courses by title or instructor. Pagination is implemented for search results when dealing with large datasets. Clicking on a course will display more details, including the instructor and schedule.
+
+
 
