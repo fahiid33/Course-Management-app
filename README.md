@@ -45,7 +45,7 @@ Before running the application, create the following .env files:
 
 1. Frontend
     ```env
-    REACT_APP_API_URL="http://localhost:3001/"
+    REACT_APP_API_URL="http://localhost:3001"
     ```
 2. backend
 
