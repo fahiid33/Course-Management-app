@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/home';
 import CourseDetails from './components/course_details';
+import CreateCourse from './components/create-course';
 import './index.css';
 
 const App: React.FC = () => {
@@ -37,6 +38,7 @@ const App: React.FC = () => {
         {/* Private route for home, details only accessible if authenticated */}
         <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
         <Route path="/details" element={<PrivateRoute><CourseDetails /></PrivateRoute>} />
+        <Route path="/create" element={<PrivateRoute><CreateCourse /></PrivateRoute>} />
 
         {/* Redirect unauthenticated users accessing root to login */}
         <Route path="/" element={<Navigate to={isAuth ? "/home" : "/login"} />} />

@@ -1,7 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Post, Req, Body, UseGuards} from '@nestjs/common';
 import { CoursesService } from './courses.service'; 
 import { Courses } from './courses.schema'; 
-import { CourseDto } from './dto/course.dto';
+import { CreateCourseDto } from './dto/create-course.dto';
+import { JwtAuthGuard } from '../auth/auth.guard';
+
 
 @Controller('courses')
 export class CoursesController {
@@ -15,8 +17,15 @@ export class CoursesController {
     return { courses, totalCount }; // Return both courses and total count
   }
   @Get('search')
-async searchCourses(@Query('searchTerm') searchTerm: string, @Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+  async searchCourses(@Query('searchTerm') searchTerm: string, @Query('page') page: number = 1, @Query('limit') limit: number = 10) {
     return this.coursesService.searchCourses(searchTerm, page, limit);
-}
+  }
+  // @UseGuards(JwtAuthGuard)
+  @Post('create')
+  async createCourse(@Body() createCourseDto: CreateCourseDto, @Req() req: Request) {
+    console.log('create course controller called with createCourseDto:', createCourseDto, 'userId:');
+    const userId = (req as any).user._id; // Assuming user info is stored in the JWT
+    return this.coursesService.createCourse(createCourseDto, userId);
+  }
 
 }

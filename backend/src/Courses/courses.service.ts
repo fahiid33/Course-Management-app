@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Courses } from './courses.schema'; // Adjust import as needed
+import { Courses } from './courses.schema';
+import {User} from '../users/user.schema';
+import { CreateCourseDto } from './dto/create-course.dto';
 
 @Injectable()
 export class CoursesService {
-  constructor(@InjectModel(Courses.name) private courseModel: Model<Courses>) {}
+  constructor(
+    @InjectModel(Courses.name) private courseModel: Model<Courses>,
+    @InjectModel(User.name) private userModel: Model<User>,
+  ) {}
 
   async findCourses(skip: number, limit: number): Promise<{ courses: Courses[], totalCount: number }> {
     const totalCount = await this.courseModel.countDocuments(); // Get total count of courses
@@ -31,5 +36,16 @@ export class CoursesService {
     console.log('find:', courses);
     
     return { courses, totalCount };
-}
+  }
+  async createCourse(createCourseDto: CreateCourseDto, userId: string): Promise<Courses> {
+    const course = new this.courseModel(createCourseDto);
+    const createdCourse = await course.save();
+
+    // Link the course to the user
+    await this.userModel.findByIdAndUpdate(userId, {
+      $push: { courses: createdCourse._id },
+    });
+
+    return createdCourse;
+  }
 }

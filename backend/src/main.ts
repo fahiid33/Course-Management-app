@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 async function bootstrap() {
   dotenv.config();
   const app = await NestFactory.create(AppModule);
-  console.log('FRONmonnoTEND_URL:', process.env.MONGO_DB_URI);
+  console.log('JWT Secrettttt:', process.env.JWT_SECRET);
   app.enableCors({
     origin: process.env.FRONTEND_URL,
     credentials: true,

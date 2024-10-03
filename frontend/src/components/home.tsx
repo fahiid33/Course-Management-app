@@ -77,24 +77,34 @@ const Home: React.FC = () => {
   };
   return (
     <div className="container mx-auto p-4 min-h-screen flex flex-col">
-      <h2 className="text-2xl font-bold mb-4">Available Courses</h2>
+  <h2 className="text-2xl font-bold mb-4">Available Courses</h2>
 
-      <form onSubmit={handleSearch} className="mb-4">
-        <input
-          type="text"
-          placeholder="Search by title or instructor"
-          value={searchTerm}
-          onChange={handleInputChange}
-          className="border rounded p-2 w-full md:w-1/3 mr-2"
-        />
-        <button 
+  {/* Button Wrapper */}
+  <div className="flex justify-between items-center mb-4">
+    <form onSubmit={handleSearch} className="flex">
+      <input
+        type="text"
+        placeholder="Search by title or instructor"
+        value={searchTerm}
+        onChange={handleInputChange}
+        className="border rounded p-2 w-full mr-2"
+      />
+      <button 
         type="submit" 
         className="bg-blue-500 text-white px-4 py-2 rounded"
         disabled={!searchTerm}
-        >
-          Search
-        </button>
-      </form>
+      >
+        Search
+      </button>
+    </form>
+    {/* Create Button */}
+    <button 
+      onClick={() => navigate('/create')} // Replace with your route to the create course page
+      className="bg-green-500 text-white px-4 py-2 rounded"
+    >
+      Create Course
+       </button>
+      </div>
 
       <div className="flex-grow">
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
