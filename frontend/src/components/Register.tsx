@@ -10,12 +10,20 @@ const Register: React.FC<RegisterProps> = ({ setIsAuth }) => {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem('access_token');
 
   const handleRegister = async (e: React.FormEvent) => {
     console.log('hanaananana');
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, { username, password });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, { username, password },
+        { 
+        withCredentials: true,
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        },
+      );
       console.log('token about to be generateddd:', response.data);
       if (response.data.access_token) {
         console.log('token generateddd:', response.data.access_token);

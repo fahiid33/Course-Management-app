@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
 
-  console.log('url is', process.env.REACT_APP_API_URL);
-
   const [courses, setCourses] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);

@@ -20,7 +20,7 @@ export class CoursesController {
   async searchCourses(@Query('searchTerm') searchTerm: string, @Query('page') page: number = 1, @Query('limit') limit: number = 10) {
     return this.coursesService.searchCourses(searchTerm, page, limit);
   }
-  
+
   @UseGuards(JwtAuthGuard)
   @Post('create')
   async createCourse(
@@ -28,6 +28,7 @@ export class CoursesController {
     @Req() req: Request,
   ) {
     console.log('create course controller called with createCourseDto:', createCourseDto);
+    console.log('create course controller called with req:', req.body);
     const userId = (req as any).user._id; // Retrieve userId from req.user
     console.log('User ID:', userId); // Check if this prints
     return this.coursesService.createCourse(createCourseDto, userId);

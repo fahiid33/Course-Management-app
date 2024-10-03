@@ -12,7 +12,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
-    console.log('tokennn generated in app :', token);
     if (token) {
       setIsAuth(true);
     }

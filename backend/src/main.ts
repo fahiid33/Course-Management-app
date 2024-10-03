@@ -9,6 +9,7 @@ async function bootstrap() {
   console.log('JWT Secrettttt:', process.env.JWT_SECRET);
   app.enableCors({
     origin: process.env.FRONTEND_URL,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
   const seedService = app.get(SeedService);
